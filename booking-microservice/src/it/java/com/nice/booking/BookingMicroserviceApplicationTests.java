@@ -22,7 +22,7 @@ import io.restassured.http.ContentType;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles(profiles="dev")
+@ActiveProfiles(profiles="qa")
 public class BookingMicroserviceApplicationTests {
 	@Value("${application.cars-microservice.host}")
 	private String carsMicroserviceHost;
@@ -33,6 +33,9 @@ public class BookingMicroserviceApplicationTests {
 	private String customersMicroserviceHost;
 	@Value("${application.customers-microservice.port}")
 	private int customersMicroservicePort;
+	
+	@Value("${application.booking-microservice.port}")
+    private int bookingMicroservicePort;
 	
 	
 	@Test
@@ -68,7 +71,7 @@ public class BookingMicroserviceApplicationTests {
 		Booking booking = new Booking(car.getPlateNumber(), customer.getUserName(), 7);
 		given()
 			.baseUri("http://localhost")
-			.port(8083)
+			.port(bookingMicroservicePort)
 			.contentType(ContentType.JSON)
             .accept(ContentType.JSON)
 			.request().body(booking)

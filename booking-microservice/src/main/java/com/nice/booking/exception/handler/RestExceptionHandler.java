@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.nice.booking.dto.error.ErrorDetail;
 import com.nice.booking.exception.CarNotFoundException;
-import com.nice.customer.exception.CustomerNotFoundException;
+import com.nice.booking.exception.CustomerNotFoundException;
 
 
 @RestControllerAdvice

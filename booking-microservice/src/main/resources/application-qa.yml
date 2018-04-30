@@ -1,5 +1,5 @@
 server:
-  port: 8083
+  port: 9093
 spring:
   profiles:
     active: qa
@@ -29,9 +29,12 @@ spring:
 application:
   cars-microservice:
     host: http://localhost
-    port: 8082
+    port: 9092
     get-cars: /cars
   customers-microservice:
     host: http://localhost
-    port: 8081
+    port: 9091
     get-customers: /cusomers
+  booking-microservice:
+    host: http://localhost
+    port: 9093

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.nice.booking.model.Booking;
 
 @Repository
-public interface BookingRepository extends JpaRepository<Booking, Long> {
+public interface BookingRepository extends JpaRepository<Booking, Long>
+{
 
 }

@@ -18,26 +18,29 @@ import com.nice.booking.model.Booking;
 import com.nice.booking.service.BookingService;
 
 @RestController
-public class BookingController {
+public class BookingController
+{
 
-	private BookingService bookingService;
+    private BookingService bookingService;
 
-	public BookingController(BookingService service){
-		this.bookingService = service;
-	}
-	
-	@GetMapping(value = "/bookings")
-	ResponseEntity<List<Booking>> getAllBookings() {
-		return new ResponseEntity<>(bookingService.getAllBookings(), HttpStatus.OK);
-	}
+    public BookingController(BookingService service)
+    {
+        this.bookingService = service;
+    }
 
-	@PostMapping(value = "/bookings")
-	ResponseEntity<Void> createBooking(@Valid @RequestBody Booking booking) {
-		Booking newBooking = bookingService.create(booking);
-		HttpHeaders responseHeaders = new HttpHeaders();
-		URI newUserUri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newBooking.getId())
-				.toUri();
-		responseHeaders.setLocation(newUserUri);
-		return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
-	}
+    @GetMapping(value = "/bookings")
+    ResponseEntity<List<Booking>> getAllBookings()
+    {
+        return new ResponseEntity<>(bookingService.getAllBookings(), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/bookings")
+    ResponseEntity<Void> createBooking(@Valid @RequestBody Booking booking)
+    {
+        Booking newBooking = bookingService.create(booking);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        URI newUserUri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newBooking.getId()).toUri();
+        responseHeaders.setLocation(newUserUri);
+        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+    }
 }

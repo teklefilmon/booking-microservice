@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.jboss.logging.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,18 +17,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.nice.booking.dto.Car;
+import com.nice.booking.dto.Customer;
 import com.nice.booking.model.Booking;
-import com.nice.car.model.Car;
-import com.nice.customer.domain.Customer;
 
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles(profiles = { "qa" })
-public class BookingMicroserviceIT
+@ActiveProfiles(profiles = "${app.environment.name}")
+public class BookingMicroserviceTest
 {
+    private static final Logger logger = Logger.getLogger(BookingMicroserviceTest.class);
     @Value("${application.cars-microservice.host}")
     private String carsMicroserviceHost;
     @Value("${application.cars-microservice.port}")
@@ -57,6 +59,7 @@ public class BookingMicroserviceIT
 
         JsonPath jsonPath = new JsonPath(response);
         accessToken = jsonPath.getString("access_token");
+        logger.info("Access Token: " + logger);
     }
 
     @Test
@@ -74,6 +77,11 @@ public class BookingMicroserviceIT
         Booking booking = new Booking(car.getPlateNumber(), customer.getUserName(), 7);
         saveBooking(booking);
     }
+    
+    @Test
+    public void anotherTest() {
+        givenCustomerIdAndPlateNumberShouldSaveBooking();
+    }
 
     /**
      * @param booking
@@ -82,8 +90,18 @@ public class BookingMicroserviceIT
      */
     private void saveBooking(Booking booking)
     {
-        given().auth().oauth2(accessToken).baseUri("http://localhost").port(bookingMicroservicePort).contentType(ContentType.JSON)
-                .accept(ContentType.JSON).request().body(booking).when().post("/bookings").then().statusCode(HttpStatus.CREATED.value());
+        given()
+            .log().all()
+            .auth().oauth2(accessToken)
+            .baseUri("http://localhost")
+            .port(bookingMicroservicePort)
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .request().body(booking)
+        .when()
+            .post("/bookings")
+        .then()
+            .statusCode(HttpStatus.CREATED.value());
     }
 
     /**
@@ -93,8 +111,17 @@ public class BookingMicroserviceIT
      */
     private void saveCar(Car car)
     {
-        given().baseUri(carsMicroserviceHost).port(carsMicroservicePort).contentType(ContentType.JSON).accept(ContentType.JSON).request().body(car)
-                .when().post("/cars").then().statusCode(HttpStatus.CREATED.value());
+        given()
+            .baseUri(carsMicroserviceHost)
+            .port(carsMicroservicePort)
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .request().body(car)
+        .when()
+            .post("/cars")
+        .then()
+            .log().ifValidationFails()
+            .statusCode(HttpStatus.CREATED.value());
     }
 
     /**
@@ -105,9 +132,15 @@ public class BookingMicroserviceIT
     private void saveCustomer(Customer customer)
     {
         given()
-
-                .baseUri(customersMicroserviceHost).port(customersMicroservicePort).contentType(ContentType.JSON).accept(ContentType.JSON).request()
-                .body(customer).when().post("/customers").then().statusCode(HttpStatus.CREATED.value());
+            .baseUri(customersMicroserviceHost)
+            .port(customersMicroservicePort)
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON).request()
+            .body(customer)
+        .when()
+            .post("/customers")
+        .then()
+            .statusCode(HttpStatus.CREATED.value());
     }
 
     private Car createCar(String randomString)

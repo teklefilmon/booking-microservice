@@ -10,12 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.nice.booking.dto.Car;
+import com.nice.booking.dto.Customer;
 import com.nice.booking.exception.CustomerNotFoundException;
 import com.nice.booking.exception.EntityNotPersistedException;
 import com.nice.booking.model.Booking;
 import com.nice.booking.repository.BookingRepository;
-import com.nice.car.model.Car;
-import com.nice.customer.domain.Customer;
 
 @Service
 @Transactional

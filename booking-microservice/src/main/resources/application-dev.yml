@@ -35,6 +35,6 @@ application:
     host: http://localhost
     port: 8081
     get-customers: /cusomers
-    booking-microservice:
+  booking-microservice:
     host: http://localhost
     port: 8083

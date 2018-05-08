@@ -1,0 +1,7 @@
+application:
+  oauth-microservice:
+    url: http://localhost:9000/services/oauth/token
+security:
+  oauth2:
+    resource:
+      userInfoUri: http://localhost:9000/services/user

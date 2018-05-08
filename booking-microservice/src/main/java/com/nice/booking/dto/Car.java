@@ -23,12 +23,6 @@ public class Car
     private BigDecimal dailyPrice;
     private Availability availability;
 
-    public enum Availability
-    {
-        AVAILABLE,
-        NOT_AVAILABLE
-    }
-
     protected Car()
     {
     }
@@ -136,5 +130,11 @@ public class Car
     public String toString()
     {
         return "Car [id=" + id + ", type=" + type + ", model=" + model + ", plateNumber=" + plateNumber + ", dailyPrice=" + dailyPrice + "]";
+    }
+
+    public enum Availability
+    {
+        AVAILABLE,
+        NOT_AVAILABLE
     }
 }

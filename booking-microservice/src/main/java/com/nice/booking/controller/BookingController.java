@@ -17,17 +17,26 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.nice.booking.model.Booking;
 import com.nice.booking.service.BookingService;
 
+/**
+ * This class exposes the booking apis
+ */
 @RestController
 public class BookingController
 {
 
     private BookingService bookingService;
 
+    /**
+     * @param service
+     */
     public BookingController(BookingService service)
     {
         this.bookingService = service;
     }
 
+    /**
+     * @return
+     */
     @GetMapping(value = "/bookings")
     ResponseEntity<List<Booking>> getAllBookings()
     {
@@ -43,4 +52,6 @@ public class BookingController
         responseHeaders.setLocation(newUserUri);
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
+
+
 }

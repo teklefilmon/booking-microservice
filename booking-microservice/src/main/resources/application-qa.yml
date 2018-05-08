@@ -38,7 +38,3 @@ application:
   booking-microservice:
     host: http://localhost
     port: 9093
-security:
-  oauth2:
-    resource:
-      userInfoUri: http://localhost:9000/services/user
